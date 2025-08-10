@@ -60,6 +60,7 @@ async function initializeDatabase() {
       equipment_id INTEGER REFERENCES equipment(id) ON DELETE CASCADE,
       purchase_date DATE,
       warranty_expiry DATE,
+      name TEXT,
       UNIQUE(user_id, equipment_id)
    );
    CREATE TABLE IF NOT EXISTS equipment_requests (
@@ -71,6 +72,13 @@ async function initializeDatabase() {
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+    CREATE TABLE IF NOT EXISTS comments (
+  id SERIAL PRIMARY KEY,
+  ticket_id INTEGER REFERENCES tickets(id) ON DELETE CASCADE,
+  user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
   `);
 
   // 2. Insert initial data if users table is empty
